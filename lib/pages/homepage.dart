@@ -77,8 +77,8 @@ class _HomePageState extends State<HomePage>  {
 
   Widget getpages(int index){
     //Here on index we can return different pages!
-    if(index==1){
-      return Location();
+    if(index==0){
+      return MapPage();
     }
     else{
       return PlaceholderWidget(Colors.deepOrange);
