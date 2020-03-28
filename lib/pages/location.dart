@@ -49,8 +49,8 @@ class _LocationState extends State<MapPage>  {
   Map<MarkerId, Marker> usersmarkers = <MarkerId, Marker>{};
 
 
-  void initmarker(double latitude, double longitude){
-
+  void initmarker(double latitude, double longitude, var id){
+    final MarkerId diffuserid=MarkerId(id);
     final Marker differentuser =Marker(
       markerId: MarkerId("HOME 2"),
       position: LatLng(latitude,longitude),
@@ -59,7 +59,8 @@ class _LocationState extends State<MapPage>  {
 
     );
     setState(() {
-      usersmarkers[markerId]=differentuser;
+      usersmarkers[diffuserid]=differentuser;
+      print(id);
     });
   }
 
@@ -73,25 +74,25 @@ class _LocationState extends State<MapPage>  {
     // here you write the codes to input the data into firestore
   }
 
-  void createRecord(double latitude, double longitude, List<Placemark> placemark){
-    print("You enyetrered here");
-    // print();
-    inputData();
-    databaseReference.child("LOCATIONSs").child(overalluserid).set({
-   'latitude': latitude,
-    'longitude': longitude,
-    'Address': address,
-    'Country': placemark[0].country,
-    'Locality': placemark[0].locality,
-    'AdministrativeArea': placemark[0].administrativeArea,
-    'PostalCode': placemark[0].postalCode,
-    'Name': placemark[0].name,
-    'ISO_CountryCode':placemark[0].isoCountryCode,
-    'SubLocality': placemark[0].subLocality,
-    'SubThoroughfare': placemark[0].subThoroughfare,
-    'Thoroughfare': placemark[0].thoroughfare,
-    });
-  }
+  // void createRecord(double latitude, double longitude, List<Placemark> placemark){
+  //   print("You enyetrered here");
+  //   // print();
+  //   inputData();
+  //   databaseReference.child("LOCATIONSs").child(overalluserid).set({
+  //  'latitude': latitude,
+  //   'longitude': longitude,
+  //   'Address': address,
+  //   'Country': placemark[0].country,
+  //   'Locality': placemark[0].locality,
+  //   'AdministrativeArea': placemark[0].administrativeArea,
+  //   'PostalCode': placemark[0].postalCode,
+  //   'Name': placemark[0].name,
+  //   'ISO_CountryCode':placemark[0].isoCountryCode,
+  //   'SubLocality': placemark[0].subLocality,
+  //   'SubThoroughfare': placemark[0].subThoroughfare,
+  //   'Thoroughfare': placemark[0].thoroughfare,
+  //   });
+  // }
 
  
 
@@ -124,6 +125,7 @@ class _LocationState extends State<MapPage>  {
           if(snapshot.value!=null){
             print(snapshot.value['latitude']);
             print(snapshot.value['longitude']);
+            initmarker(snapshot.value['latitude'], snapshot.value['longitude'], id);
           }
         });
       }
@@ -213,31 +215,6 @@ int check=0;
     FirebaseUser user = await firebaseAuth.currentUser();
     return user;
   }
-
-  
-  // void alertcorona() {
-  //   // flutter defined function
-  //   showDialog(
-  //     context: context,
-  //     builder: (BuildContext context) {
-  //       // return object of type Dialog
-  //       return AlertDialog(
-  //         title: new Text("Alert Dialog title"),
-  //         content: new Text("Alert Dialog body"),
-  //         actions: <Widget>[
-  //           // usually buttons at the bottom of the dialog
-  //           new FlatButton(
-  //             child: new Text("Close"),
-  //             onPressed: () {
-  //               Navigator.of(context).pop();
-  //             },
-  //           ),
-  //         ],
-  //       );
-  //     },
-  //   );
-  // }
-  
   
   @override
   Widget build(BuildContext context) {
@@ -365,7 +342,8 @@ LatLng sendlocation;
       body: GoogleMap(
         mapType: MapType.normal,
         // markers: createMarker(),
-        markers: Set.of((marker != null) ? [marker] : []),
+        markers: Set<Marker>.of(usersmarkers.values),
+        //  markers: Set.of((marker != null) ? [marker] : []),
         // initialCameraPosition: CameraPosition(
         //   target: LatLng(userLocation.latitude, userLocation.longitude),
         //   zoom: 12.0,

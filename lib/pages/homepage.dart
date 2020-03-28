@@ -3,6 +3,7 @@ import 'package:mishmash_flutter/services/authentication.dart';
 import 'package:mishmash_flutter/pages/location.dart';
 import 'package:mishmash_flutter/pages/alert.dart';
 
+
 class HomePage extends StatefulWidget {
   HomePage({Key key, this.auth, this.userId, this.logoutCallback})
       : super(key: key);
