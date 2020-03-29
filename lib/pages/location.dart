@@ -106,7 +106,7 @@ class _LocationState extends State<MapPage>  {
             print('${snapshot.value.keys}');
             for(var userids in snapshot.value.keys){
               if(overalluserid==userids){
-                checkid=1;
+                checkid=1;  
                 print(check);
               }
             }
